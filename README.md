@@ -1,71 +1,85 @@
-# React приложение с инеграцей Yandex Maps
-
-Данный проект демонстрирует работу интеграции Я.Карт в ваше React-приложение.
+# React приложение с интеграцией Yandex Maps
 
 [![npm](https://img.shields.io/npm/v/@pbe/react-yandex-maps)](https://www.npmjs.com/package/@pbe/react-yandex-maps)
 [![npm bundle size](https://img.shields.io/bundlephobia/minzip/@pbe/react-yandex-maps)](https://bundlephobia.com/package/@pbe/react-yandex-maps)
 
-[Yandex Maps API][ymaps-api] bindings for React
+## Использование готового компонента
 
-[ymaps-api]:
-  https://tech.yandex.com/maps/doc/jsapi/2.1/quick-start/index-docpage/
+Чтобы быстро начать работу с этим проектом, клонируйте репозиторий и установите зависимости:
 
-### Особенности
-
-- Supports TypeScript out of the box
-- Automatic yamps api and modules loading
-- Declarative rendering
-
-### Установка
-
-npm:
-
-```
-npm install @pbe/react-yandex-maps
+```bash
+git clone https://github.com/kaurcev/Ya-map.git
+cd Ya-map
+npm install
+npm run start
 ```
 
-yarn:
+## Пример использования
 
-```
-yarn add @pbe/react-yandex-maps
-```
+Ниже приведен пример кода, демонстрирующий, как добавить карту с метками в ваше приложение:
 
+```typescript
+import React from 'react';
+import { YMaps, Map, Placemark } from 'react-yandex-maps';
+import points from './file.json';
 
-### Добавляем карту в приложение
+interface Point {
+  coordinates: number[];
+  content: string;
+}
 
-```TypeScript
-import { YMaps, Map, Placemark, } from 'react-yandex-maps'; 
-import points from './file.json'; // Импорт данных точек из JSON файла
-
-var App = () => (
-<YMaps>
-    <!-- Атрибут defaultState позволяет указать начальную позицию карты и зум (приближение) -->
-  <Map className='map' defaultState={{ center: [54.9924, 73.3686], zoom: 14 }}>
-
-  <!-- Полученные данные точек из JSON файла отрисовываются на карте  -->
-
-    {points.map(point => (
-      <Placemark geometry={point.coordinates} properties={{ iconCaption: point.content }} />
-    ))}
-  </Map>
-</YMaps>
+const App: React.FC = () => (
+  <YMaps>
+    <Map className='map' defaultState={{ center: [54.9924, 73.3686], zoom: 14 }}>
+      {points.map((point: Point, index: number) => (
+        <Placemark
+          key={index}
+          geometry={point.coordinates}
+          properties={{ iconCaption: point.content }} 
+        />
+      ))}
+    </Map>
+  </YMaps>
 );
+
+export default App;
 ```
 
+## Структура данных для меток
 
-### Данные о метках
+Пример JSON-данных, используемых для отображения меток на карте:
 
-Содержание указано ниже
-
-```JSON
+```json
 [
   {
-    "coordinates": [54.9924,73.3686],
+    "coordinates": [54.9924, 73.3686],
     "content": "Это типа Омск"
   },
   {
-    "coordinates": [54.993611,73.360028],
+    "coordinates": [54.993611, 73.360028],
     "content": "Легендарное метро из одной станции"
   }
 ]
+```
+
+## Описание
+
+Это приложение демонстрирует, как эффективно интегрировать Яндекс.Карты в ваше React-приложение, используя библиотеку `@pbe/react-yandex-maps`. Этот инструмент предоставляет удобные биндинги для работы с API Яндекс.Карт, обеспечивая простоту и гибкость в разработке.
+
+[Yandex Maps API][ymaps-api] предоставляет мощные возможности для создания интерактивных карт в веб-приложениях.
+
+[ymaps-api]: https://pbe-react-yandex-maps.vercel.app/
+
+### Основные особенности
+
+- **Поддержка TypeScript:** Легкая интеграция с TypeScript, позволяющая использовать типизацию и автодополнение.
+- **Автоматическая загрузка API:** Библиотека автоматически загружает необходимые модули API Яндекс.Карт, что упрощает процесс интеграции.
+- **Декларативный рендеринг:** Используйте декларативный подход для рендеринга карт и меток, что делает код более читаемым и поддерживаемым.
+
+## Установка
+
+Установите пакет с помощью npm:
+
+```bash
+npm install @pbe/react-yandex-maps
 ```
